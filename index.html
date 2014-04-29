@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="werewolfApp">
+  <head>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/underscore-min.js"></script>
+    <script src="js/app.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="css/app.css"></link>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row" ng-controller="RoleController">
+         <div class="col-md-12" ng-show="renderSection">
+            <h1>Select Roles</h1>
+            
+            <div class="row" ng-repeat="role in roles | filter:hasInstructions">
+               <div class="col-md-3">{{role.name}}</div>
+               <div class="col-md-1">{{role.count}}</div>
+               <div class="col-md-2">
+                  <button type="button" class="btn" ng-click="role.count = role.count - 1"><span class="glyphicon glyphicon-minus"></span></button>
+                  <button type="button" class="btn" ng-click="role.count = role.count + 1"><span class="glyphicon glyphicon-plus"></span></button>
+               </div>
+            </div>
+            
+            <button type="button" class="btn" ng-click="updateInstructions()">Done</button>
+          </div>
+      </div>
+      <div class="row" ng-controller="ScriptController"> 
+         <div class="col-md-12" ng-show="renderSection">
+            <h1>Script</h1>
+            
+            <h2>Round {{round}}</h2>
+            <button type="button" class="btn" ng-click="round = round - 1"><span class="glyphicon glyphicon-minus"></span></button>
+            <button type="button" class="btn" ng-click="round = round + 1"><span class="glyphicon glyphicon-plus"></span></button>
+            
+            <ul>
+               <li ng-repeat="instruction in instructions | filter:activeInRound"> 
+                  {{ instruction.message }}
+               </li>
+            </ul>
+         </div>
+         <div class="col-md-12" ng-show="renderSection">
+            <button class="btn" ng-click="defineRoles()">Back</button>
+         </div>
+      </div>
+    </div>
+  </body>
+</html>
