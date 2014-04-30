@@ -36,7 +36,7 @@ var makeInstruction = function(message, rounds, extraArgs) {
          if (recognizedArgs.indexOf(k) >= 0) {
             instruction[k] = extraArgs[k];
          } else {
-            console.log('unrecognized role argument: ' + k);
+            console.log('unrecognized instruction argument: ' + k);
          }
       }
    }
