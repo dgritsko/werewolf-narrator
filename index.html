@@ -23,9 +23,9 @@
             <h3>Player Count: {{playerCount()}}, Balance: {{playerBalance()}}</h3>
             
             <div class="row" ng-repeat="role in roles | filter:shouldDisplayRole">
-               <div class="col-md-3">{{role.name}}</div>
-               <div class="col-md-1">{{role.count}}</div>
-               <div class="col-md-2">
+               <div class="col-md-2"><h4>{{role.name}}</h4></div>
+               <div class="col-md-2"><h4>{{role.count}}</h4></div>
+               <div class="col-md-4">
                   <button type="button" class="btn" ng-click="decreaseCount(role)"><span class="glyphicon glyphicon-minus"></span></button>
                   <button type="button" class="btn" ng-click="increaseCount(role)"><span class="glyphicon glyphicon-plus"></span></button>
                </div>
