@@ -9,6 +9,20 @@ werewolfApp.controller('RoleController', ['$scope', '$rootScope', 'roles', funct
    
    $scope.roles = roles;
    
+   $scope.playerCount = function() {
+      return _.reduce($scope.roles, function(memo, role) { return memo + (role.count || 0); }, 0);
+   };
+   
+   $scope.playerBalance = function() {
+      var sum = _.reduce($scope.roles, function(memo, role) { return memo + ((role.count || 0) * (role.balance || 0)); }, 0);
+      
+      if (sum <= 0) {
+         return '' + sum;
+      }
+
+      return '+' + sum;
+   };
+   
    $scope.updateInstructions = function() {
       $scope.renderSection = false;
    

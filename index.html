@@ -20,6 +20,7 @@
       <div class="row" ng-controller="RoleController">
          <div class="col-md-12" ng-show="renderSection">
             <h1>Select Roles</h1>
+            <h3>Player Count: {{playerCount()}}, Balance: {{playerBalance()}}</h3>
             
             <div class="row" ng-repeat="role in roles | filter:hasInstructions">
                <div class="col-md-3">{{role.name}}</div>
