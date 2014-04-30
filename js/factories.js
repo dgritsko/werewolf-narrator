@@ -23,11 +23,25 @@ var makeRole = function(name, instructions, extraArgs) {
    return role;
 };
 
-var makeInstruction = function(message, rounds) {
-   return {
+var makeInstruction = function(message, rounds, extraArgs) {
+   var instruction = {
       message: message,
       rounds: rounds || []
+   };
+
+   if (extraArgs) {
+      var recognizedArgs = ['id', 'parentId'];
+   
+      for(var k in extraArgs) {
+         if (recognizedArgs.indexOf(k) >= 0) {
+            instruction[k] = extraArgs[k];
+         } else {
+            console.log('unrecognized role argument: ' + k);
+         }
+      }
    }
+   
+   return instruction;
 };
 
 return [
@@ -81,11 +95,14 @@ makeRole('Minion'),
 makeRole('Werewolf',
    [  
       makeInstruction('Werewolves, wake up.'),
-      makeInstruction('Werewolves, identify each other.', [0]),
+      makeInstruction('Werewolves, identify each other.', [0], { id : 'werewolf_wakeup' }),
       makeInstruction('Werewolves, choose your victim.'),
       makeInstruction('Werewolves, go to sleep.')
    ], { balance: -6 }),
-makeRole('Wolf Cub'),
+makeRole('Wolf Cub', 
+   [
+      makeInstruction('Wolf Cub, identify yourself.', [0], { parentId: 'werewolf_wakeup' })
+   ], { balance: -6 }),
 makeRole('Cursed'),
 makeRole('Doppelganger'),
 makeRole('Drunk'),

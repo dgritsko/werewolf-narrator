@@ -30,15 +30,41 @@ werewolfApp.controller('RoleController', ['$scope', '$rootScope', 'roles', funct
    $scope.updateInstructions = function() {
       $scope.renderSection = false;
    
-      var instructions = [];
+      var instruction_lookup = {};
       
       for (var i = 0, len = $scope.roles.length; i < len; i++) {
          var role = $scope.roles[i];
          
          if (role.count <= 0) { continue; } 
          
-         instructions = instructions.concat(role.instructions);         
+         for (var j = 0, instructionLen = role.instructions.length; j < instructionLen; j++) {
+            var instruction = role.instructions[j];
+            if (instruction.id) {
+               if (instruction_lookup[instruction.id]) {
+                  // Insert at start of array
+                  instruction_lookup[instruction.id].unshift(instruction);
+               } else {
+                  instruction_lookup[instruction.id] = [ instruction ];
+               }
+            } else if (instruction.parentId) {
+               if (instruction_lookup[instruction.parentId]) {
+                  instruction_lookup[instruction.parentId].push(instruction);
+               } else {
+                  instruction_lookup[instruction.parentId] = [ instruction ];
+               }
+            } else {
+               instruction_lookup[i + '_' + j] = [ instruction ];
+            }
+         }
       }
+      
+      var instructions = [];
+      for (var k in instruction_lookup) {
+         instructions = instructions.concat(instruction_lookup[k]);
+      }
+      
+      instructions.unshift({ message: 'Everyone, go to sleep.' });
+      instructions.push({ message: 'Everyone, wake up.' });
      
       $rootScope.$broadcast('updateInstructions', {instructions: instructions});
    };   
