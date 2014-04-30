@@ -3,8 +3,12 @@
 werewolfApp.controller('RoleController', ['$scope', '$rootScope', 'roles', function($scope, $rootScope, roles) {
    $scope.renderSection = true;
 
-   $scope.hasInstructions = function(actual, expected) {
-      return actual.instructions && actual.instructions.length;
+   $scope.shouldDisplayRole = function(actual, expected) {
+      var hasInstructions = actual.instructions && actual.instructions.length;
+      
+      var shouldDisplay = actual.shouldDisplay;
+      
+      return hasInstructions || shouldDisplay;
    }
    
    $scope.roles = roles;

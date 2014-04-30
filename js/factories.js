@@ -9,8 +9,14 @@ var makeRole = function(name, instructions, extraArgs) {
    };
    
    if (extraArgs) {
+      var recognizedArgs = ['shouldDisplay', 'maxCount', 'balance'];
+   
       for(var k in extraArgs) {
-         role[k] = extraArgs[k];
+         if (recognizedArgs.indexOf(k) >= 0) {
+            role[k] = extraArgs[k];
+         } else {
+            console.log('unrecognized role argument: ' + k);
+         }
       }
    }
    
@@ -32,7 +38,7 @@ makeRole('Bodyguard',
       makeInstruction('Bodyguard, wake up.'),
       makeInstruction('Bodyguard, choose who you would like to protect.'),
       makeInstruction('Bodyguard, go to sleep.')
-   ]),
+   ], { maxCount: 1, balance: 3 }),
 makeRole('Cupid',
    [
       makeInstruction('Cupid, wake up.', [0]),
@@ -42,7 +48,7 @@ makeRole('Cupid',
 makeRole('Diseased'),
 makeRole('Ghost'),
 makeRole('Hunter'),
-makeRole('Idiot'),
+makeRole('Idiot', [], { shouldDisplay: true }),
 makeRole('Lycan'),
 makeRole('Magician'),
 makeRole('Martyr'),
@@ -56,7 +62,7 @@ makeRole('Mayor'),
 makeRole('Old Hag'),
 makeRole('Old Man'),
 makeRole('P.I.'),
-makeRole('Pacifist'),
+makeRole('Pacifist', [], { shouldDisplay: true }),
 makeRole('Priest'),
 makeRole('Prince'),
 makeRole('Seer', 
@@ -90,6 +96,6 @@ makeRole('Tanner'),
 makeRole('Lone Wolf'),
 makeRole('Vampire'),
 makeRole('Amulet of Protection'),
-makeRole('Villager')
+makeRole('Villager', [], { balance: 1, shouldDisplay: true })
 ];
 });
