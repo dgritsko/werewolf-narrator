@@ -1,16 +1,44 @@
 'use strict';
 
+werewolfApp.controller('MainController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+   $scope.playerName = '';
+   
+   if (typeof(Storage !== 'undefined')) {
+      var playerName = localStorage.getItem('playerName');
+      var playerKey = localStorage.getItem('playerKey');
+      
+      //$scope.name = name;
+      //$scope.key = Math.floor(Math.random() * 1000);
+      
+      if (playerName && playerKey) {
+         $scope.playerName = playerName;
+         $scope.playerKey = playerKey;
+      } else {
+         $scope.playerKey = Math.floor(Math.random() * 1000);
+      }
+   }
+   
+   $scope.done = function() {
+      if ($scope.playerName) {
+      
+         localStorage.setItem('playerName', $scope.playerName);
+         localStorage.setItem('playerKey', $scope.playerKey);
+      } else {
+         console.log('TODO: alert that player name is required');
+      }
+   }
+
+}]);
+
 werewolfApp.controller('GameController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
    $scope.games = []
-
+   
    $scope.getGameList = function() {
       $http.get('/api/games').success(function(data) {
          $scope.games = data.games;
       });
    }
 
-   $scope.working = 'hello world';
-   
    $scope.joinGame = function(game_id) {
       console.log('joining game ' + game_id);
    }
@@ -30,7 +58,7 @@ werewolfApp.controller('GameController', ['$scope', '$rootScope', '$http', funct
 }]);
 
 werewolfApp.controller('RoleController', ['$scope', '$rootScope', 'roles', function($scope, $rootScope, roles) {
-   $scope.renderSection = true;
+   $scope.renderSection = false;
 
    $scope.shouldDisplayRole = function(actual, expected) {
       var hasInstructions = actual.instructions && actual.instructions.length;
