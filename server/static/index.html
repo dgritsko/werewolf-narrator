@@ -18,40 +18,54 @@
   <body>
     <div class="container">
       <div class="row" ng-controller="MainController">
-         <h2>Enter your name</h2>
-         
-         <input type="text" ng-model="playerName" />
-         
-         <button type="button" class="btn" ng-click="done()">OK</button>
+         <div class="col-md-12" ng-show="renderSection">
+            <h2>Enter your name</h2>
+            
+            <input type="text" ng-model="playerName" />
+            
+            <button type="button" class="btn" ng-click="done()">OK</button>
+         </div>
       </div>   
     
       <div class="row" ng-controller="GameController">
-         <h1>Select Game</h1>
-         <ul>
-            <li ng-repeat="game in games">{{game.name}}
-               <button type="button" class="btn" ng-click="joinGame(game._id)">Join</button>
-            </li>
-         </ul>
-         <h4>Create Game</h4>
-         <input type="text" ng-model="newGameName" />
-         <button type="button" class="btn" ng-click="createGame()">Create</button>
-      </div>
-    
-      <div class="row" ng-controller="RoleController">
          <div class="col-md-12" ng-show="renderSection">
-            <h1>Select Roles</h1>
-            <h3>Player Count: {{playerCount()}}, Balance: {{playerBalance()}}</h3>
-            
-            <div class="row" ng-repeat="role in roles | filter:shouldDisplayRole">
-               <div class="col-md-2"><h4>{{role.name}}</h4></div>
-               <div class="col-md-2"><h4>{{role.count}}</h4></div>
-               <div class="col-md-4">
-                  <button type="button" class="btn" ng-click="decreaseCount(role)"><span class="glyphicon glyphicon-minus"></span></button>
-                  <button type="button" class="btn" ng-click="increaseCount(role)"><span class="glyphicon glyphicon-plus"></span></button>
-               </div>
+            <h1>Select Game</h1>
+            <ul>
+               <li ng-repeat="game in games">{{game.name}}
+                  <button type="button" class="btn" ng-click="joinGame(game._id)">Join</button>
+               </li>
+            </ul>
+            <h4>Create Game</h4>
+            <input type="text" ng-model="newGameName" />
+            <button type="button" class="btn" ng-click="createGame()">Create</button>
+         </div>
+      </div>
+      
+      <div class="row" ng-controller="LobbyController">
+         <div class="col-md-12" ng-show="renderSection">
+            <div>
+               <h1>Lobby</h1>
+               <ul>
+                  <li ng-repeat="player in players">
+                     {{player.name}}
+                  </li>
+               </ul>
             </div>
-            
-            <button type="button" class="btn" ng-click="updateInstructions()">Done</button>
+            <div ng-show="isAdmin">
+               <h1>Select Roles</h1>
+               <h3>Player Count: {{playerCount()}}, Balance: {{playerBalance()}}</h3>
+               
+               <div class="row" ng-repeat="role in roles | filter:shouldDisplayRole">
+                  <div class="col-md-2"><h4>{{role.name}}</h4></div>
+                  <div class="col-md-2"><h4>{{role.count}}</h4></div>
+                  <div class="col-md-4">
+                     <button type="button" class="btn" ng-click="decreaseCount(role)"><span class="glyphicon glyphicon-minus"></span></button>
+                     <button type="button" class="btn" ng-click="increaseCount(role)"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+               </div>
+               
+               <button type="button" class="btn" ng-click="updateInstructions()">Done</button>
+            </div>
           </div>
       </div>
       <div class="row" ng-controller="ScriptController"> 

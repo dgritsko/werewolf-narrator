@@ -17,13 +17,15 @@ def games_collection():
 @post('/api/games')
 def create_game():
     game_name = request.json['name']
+    owner_key = request.json['key']
 
     client = get_client()
     game_id = client['werewolf']['games'].count()
 
     client['werewolf']['games'].insert({
         'name': game_name,
-        '_id': game_id
+        '_id': game_id,
+        'owner_key': owner_key
     })
 
     return {'result': 'ok'}
@@ -50,7 +52,10 @@ def players_collection(game_id):
 
     players = client['werewolf']['players'].find({'game_id': game_id})
 
-    return {'players': [x for x in players]}
+    def player_select(x):
+        return {'name': x.get('name')}
+
+    return {'players': [player_select(x) for x in players]}
 
 
 @post('/api/games/<game_id:int>/players')
@@ -61,7 +66,16 @@ def create_player(game_id):
     if game is None:
         abort(404, 'no such game')
 
+    player_key = request.json['key']
+    player_name = request.json['name']
 
+    if player_key is None or player_name is None:
+        abort(412, 'key and name are required')
+
+    player = client['werewolf']['players'].find_one({'key': player_key, 'game_id': game_id})
+
+    if player is None:
+        client['werewolf']['players'].insert({'key': player_key, 'name': player_name, 'game_id': game_id})
 
     return {'result': 'ok'}
 
