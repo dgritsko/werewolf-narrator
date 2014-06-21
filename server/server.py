@@ -39,6 +39,33 @@ def game_detail(game_id):
 
     return game
 
+
+@route('/api/games/<game_id:int>/players')
+def players_collection(game_id):
+    client = get_client()
+    game = client['werewolf']['games'].find_one({'_id': game_id})
+
+    if game is None:
+        abort(404, 'no such game')
+
+    players = client['werewolf']['players'].find({'game_id': game_id})
+
+    return {'players': [x for x in players]}
+
+
+@post('/api/games/<game_id:int>/players')
+def create_player(game_id):
+    client = get_client()
+    game = client['werewolf']['games'].find_one({'_id': game_id})
+
+    if game is None:
+        abort(404, 'no such game')
+
+
+
+    return {'result': 'ok'}
+
+
 @route('/')
 def index():
     return static_file('index.html', root='static')

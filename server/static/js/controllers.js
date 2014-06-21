@@ -1,5 +1,34 @@
 'use strict';
 
+werewolfApp.controller('GameController', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
+   $scope.games = []
+
+   $scope.getGameList = function() {
+      $http.get('/api/games').success(function(data) {
+         $scope.games = data.games;
+      });
+   }
+
+   $scope.working = 'hello world';
+   
+   $scope.joinGame = function(game_id) {
+      console.log('joining game ' + game_id);
+   }
+   
+   $scope.createGame = function() {
+      if ($scope.newGameName) {
+         $http.post('/api/games', { name: $scope.newGameName }).success(function() {
+            $scope.newGameName = '';
+            $scope.getGameList();
+         });
+      } else {
+         console.log('TODO: alert that game name is required');
+      }
+   };
+   
+   $scope.getGameList();
+}]);
+
 werewolfApp.controller('RoleController', ['$scope', '$rootScope', 'roles', function($scope, $rootScope, roles) {
    $scope.renderSection = true;
 
