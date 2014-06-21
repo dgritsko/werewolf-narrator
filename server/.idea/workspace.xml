@@ -26,8 +26,10 @@
       <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.031021899" vertical-offset="0" max-vertical-offset="548">
-              <folding />
+            <state line="37" column="16" selection-start="793" selection-end="793" vertical-scroll-proportion="0.9069343" vertical-offset="132" max-vertical-offset="748">
+              <folding>
+                <element signature="e#0#57#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -158,8 +160,10 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="43" selection-end="43" vertical-scroll-proportion="0.031021899" vertical-offset="0" max-vertical-offset="548">
-          <folding />
+        <state line="37" column="16" selection-start="793" selection-end="793" vertical-scroll-proportion="0.9069343" vertical-offset="132" max-vertical-offset="748">
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
