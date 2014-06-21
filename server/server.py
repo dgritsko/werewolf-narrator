@@ -1,4 +1,4 @@
-from bottle import route, run, static_file, post, request
+from bottle import route, run, static_file, post, request, abort
 from pymongo import MongoClient
 
 
@@ -11,19 +11,33 @@ def games_collection():
     client = get_client()
     games = client['werewolf']['games'].find()
 
-    result = []
-    for game in games:
-        result.append({'name': game.get('name')})
-    return {'games': result}
+    return {'games': [x for x in games]}
 
 
 @post('/api/games')
 def create_game():
     game_name = request.json['name']
+
     client = get_client()
-    client['werewolf']['games'].insert({'name': game_name})
+    game_id = client['werewolf']['games'].count()
+
+    client['werewolf']['games'].insert({
+        'name': game_name,
+        '_id': game_id
+    })
+
     return {'result': 'ok'}
 
+
+@route('/api/games/<game_id:int>')
+def game_detail(game_id):
+    client = get_client()
+    game = client['werewolf']['games'].find_one({'_id': game_id})
+
+    if game is None:
+        abort(404, 'no such game')
+
+    return game
 
 @route('/')
 def index():
